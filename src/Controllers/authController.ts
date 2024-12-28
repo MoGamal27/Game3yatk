@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import asyncHandler from "express-async-handler";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
+import { AppError } from "../utils/appError";
 
 
 
@@ -42,10 +43,7 @@ const signUp = asyncHandler(async (req: Request, res: Response, next: NextFuncti
         });
 
         if(!user ||  !(await bcrypt.compare(req.body.password, user.password))) {
-             res.status(401).json({
-                status: "fail",
-                message: "Invalid email or password",
-            });
+            return next(new AppError("Incorrect email or password", 401));
         }
 
         res.status(200).json({
