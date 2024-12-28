@@ -1,8 +1,9 @@
 import { signUp, login } from "../Controllers/authController";
+import { signupValidator, signinValidator } from "../utils/validator/authValidator";
 import express from "express";
 const router = express.Router();
 
-router.post("/signup", signUp);
-router.post("/login", login);
+router.post("/signup", signupValidator ,signUp);
+router.post("/login", signinValidator,login);
 
 export default router;
