@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts", 
+    "start": "ts-node src/index.ts",
     "dev": "nodemon --exec ts-node src/index.ts",
     "migrate": "prisma migrate dev"
   },
@@ -13,8 +13,11 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.0.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
-    "express": "^4.21.2"
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
