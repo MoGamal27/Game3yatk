@@ -19,3 +19,28 @@ model User {
  NationalId Int
  avatar String?
 }
+
+model Circle {
+  id          Int       @id @default(autoincrement())
+  members     Int       
+  amount      Float     
+  slot        Slot      
+  adminFees   Float?     
+  duration    Duration  
+  startOn     DateTime  
+  installments Int      
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum Slot {
+  FIRST
+  MEDIUM
+  LAST
+}
+
+enum Duration {
+  SIX_MONTHS
+  TEN_MONTHS
+  TWELVE_MONTHS
+}
