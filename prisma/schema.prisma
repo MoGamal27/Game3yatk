@@ -21,26 +21,26 @@ model User {
 }
 
 model Circle {
-  id          Int       @id @default(autoincrement())
-  members     Int       
-  amount      Float     
-  slot        Slot      
-  adminFees   Float?     
-  duration    Duration  
-  startOn     DateTime  
-  installments Int      
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            Int            @id @default(autoincrement())
+  totalMember   Int
+  amount        Float
+  adminFees     Float
+  duration      Int           
+  installment   Float
+  startedOn     DateTime       @default(now())
+  payoutDate    DateTime?
+  totalPayout   Float
+  circleMembers CircleMember[]
 }
 
-enum Slot {
-  FIRST
-  MEDIUM
-  LAST
-}
+model CircleMember {
+  id           Int      @id @default(autoincrement())
+  circleId     Int
+  userId       String
+  payoutOrder  Int      @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-enum Duration {
-  SIX_MONTHS
-  TEN_MONTHS
-  TWELVE_MONTHS
+ circle       Circle   @relation(fields: [circleId], references: [id])
+  @@unique([circleId, userId, payoutOrder])
 }
