@@ -54,4 +54,42 @@ const createCircleMember = asyncHanler(async (req: Request, res: Response, next:
   });
 });
 
-export { createCircleMember };
+
+const getAvailablePayoutOrder = asyncHanler(async (req: Request, res: Response, next: NextFunction) => {
+  const  circleId  = parseInt(req.params.circleId);
+
+  const circle = await prisma.circle.findUnique({
+    where: { id: circleId },
+    select: { 
+      totalMember: true,
+      circleMembers: {
+        select: {
+          payoutOrder: true,
+        },
+      }
+    },
+  });
+
+  if(!circle) {
+    return next(new AppError("Circle not found", 404));
+  }
+  const takenOrder = new Set(circle.circleMembers.map((member) => member.payoutOrder));
+
+  const availableOrder = Array.from({ length: circle.totalMember }, 
+    (_, i) => i + 1)
+    .filter((order) => !takenOrder.has(order));
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        availableOrder,
+      },
+    });
+
+});
+
+
+export {
+  createCircleMember,
+  getAvailablePayoutOrder,
+};
